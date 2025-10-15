@@ -14,6 +14,8 @@ pub struct Deck {
     pub cards: Vec<Card>,
 }
 
+pub type Hand = Deck;
+
 impl Display for Deck {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let mut cards = self.cards.iter();
