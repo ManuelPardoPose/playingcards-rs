@@ -27,6 +27,12 @@ impl Display for Deck {
     }
 }
 
+impl From<Vec<Card>> for Deck {
+    fn from(value: Vec<Card>) -> Self {
+        Self { cards: value }
+    }
+}
+
 impl Deck {
     pub fn new(deck_type: DeckType) -> Self {
         let mut cards: Vec<Card> = Vec::new();
@@ -136,5 +142,12 @@ mod tests {
         assert!(deck2.draw().is_none());
         assert!(deck.is_empty());
         assert!(deck2.is_empty());
+    }
+
+    #[test]
+    fn test_from_card_vec() {
+        let deck = Deck::new(DeckType::FRENCH);
+        let deck2 = Deck::from(deck.cards.clone());
+        assert_eq!(deck, deck2);
     }
 }
