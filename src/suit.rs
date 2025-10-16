@@ -15,14 +15,14 @@ pub enum Suit {
 impl Display for Suit {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let s = match self {
-            Self::FrenchHearts => "♥",
-            Self::FrenchDiamonds => "♦︎",
-            Self::FrenchClubs => "♣︎",
-            Self::FrenchSpades => "♠︎",
-            Self::SpanishCups => "🏆",
-            Self::SpanishCoins => "🟡",
-            Self::SpanishClubs => "🪠",
-            Self::SpanishSwords => "🗡️",
+            Self::FrenchHearts => '♥',
+            Self::FrenchDiamonds => '♦',
+            Self::FrenchClubs => '♣',
+            Self::FrenchSpades => '♠',
+            Self::SpanishCups => '⚱',
+            Self::SpanishCoins => '⬤',
+            Self::SpanishClubs => '⚚',
+            Self::SpanishSwords => '⚔',
         };
         write!(f, "{}", s)
     }
