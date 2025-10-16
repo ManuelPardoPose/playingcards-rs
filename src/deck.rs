@@ -62,7 +62,11 @@ impl Deck {
         self.cards.shuffle(&mut rng);
     }
 
-    pub fn draw(&mut self) -> Option<Card> {
+    pub fn push(&mut self, card: Card) {
+        self.cards.push(card);
+    }
+
+    pub fn pop(&mut self) -> Option<Card> {
         self.cards.pop()
     }
 
@@ -109,7 +113,7 @@ mod tests {
     }
 
     #[test]
-    fn test_draw_peek() {
+    fn test_pop_peek() {
         let mut deck = Deck::new(DeckType::FRENCH);
         assert!(deck.peek().is_some());
         let first_peek = *deck.peek().unwrap();
@@ -117,31 +121,31 @@ mod tests {
         let second_peek = *deck.peek().unwrap();
         assert_eq!(first_peek, second_peek);
 
-        let first_draw = {
-            let card = deck.draw();
+        let first_pop = {
+            let card = deck.pop();
             assert!(card.is_some());
             card.unwrap()
         };
-        assert_eq!(first_peek, first_draw);
-        let second_draw = {
-            let card = deck.draw();
+        assert_eq!(first_peek, first_pop);
+        let second_pop = {
+            let card = deck.pop();
             assert!(card.is_some());
             card.unwrap()
         };
-        assert_ne!(first_draw, second_draw);
+        assert_ne!(first_pop, second_pop);
     }
 
     #[test]
-    fn test_draw_all_cards() {
+    fn test_pop_all_cards() {
         let mut deck = Deck::new(DeckType::FRENCH);
         let mut deck2 = Deck::new(DeckType::FRENCH);
         for _ in 0..deck.len() {
             assert!(deck.peek().is_some());
             assert!(deck2.peek().is_some());
-            assert_eq!(deck.draw(), deck2.draw());
+            assert_eq!(deck.pop(), deck2.pop());
         }
-        assert!(deck.draw().is_none());
-        assert!(deck2.draw().is_none());
+        assert!(deck.pop().is_none());
+        assert!(deck2.pop().is_none());
         assert!(deck.is_empty());
         assert!(deck2.is_empty());
     }
@@ -151,5 +155,15 @@ mod tests {
         let deck = Deck::new(DeckType::FRENCH);
         let deck2 = Deck::from(deck.cards.clone());
         assert_eq!(deck, deck2);
+    }
+
+    #[test]
+    fn test_push_card() {
+        let mut deck = Deck::new(DeckType::FRENCH);
+        assert_eq!(deck.len(), 52);
+        let card = Card::new(Rank::Rey, Suit::SpanishCups);
+        deck.push(card.clone());
+        assert_eq!(deck.len(), 53);
+        assert_eq!(deck.pop().unwrap(), card);
     }
 }
